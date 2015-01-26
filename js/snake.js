@@ -43,17 +43,17 @@
     }
   };
 
-  var Board = Snakes.Board = function () {
-    var that = this;
+  var Board = Snakes.Board = function (dimensions) {
+    this.dimensions = dimensions;
     this.snake = new Snake;
   }
 
   Board.grid = function () {
     var grid = []
 
-    for(var i = 0; i < 20; i++) {
+    for(var i = 0; i < this.dimensions; i++) {
       grid.push([]);
-      for (var j = 0; j < 20; j++) {
+      for (var j = 0; j < this.dimensions; j++) {
         grid[i][j] = '.';
       }
     }
