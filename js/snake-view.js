@@ -28,16 +28,16 @@
   View.prototype.handleKeyEvent = function (event) {
     console.log(event.keyCode);
     switch (event.keyCode) {
-      case '38':
+      case 38:
         this.board.snake.turn("N");
         break;
-      case '37':
+      case 37:
         this.board.snake.turn("W");
         break;
-      case '40':
+      case 40:
         this.board.snake.turn("S");
         break;
-      case '39':
+      case 39:
         this.board.snake.turn("E");
         break;
     }
