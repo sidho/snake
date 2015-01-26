@@ -7,17 +7,15 @@
 </head>
 <body>
   <h1>Snakes</h1>
-  <main>
-
-  </main>
+  <figure class="snake-game"></figure>
   <script type="application/javascript" src="../js/jquery-2.1.1.js"></script>
-  <!-- Whackjobs at GithubPages don't understand symlinks... -->
   <script  type="application/javascript" src="../js/snake.js"></script>
   <script  type="application/javascript" src="../js/snake-view.js"></script>
 
   <script>
-  // var board = new Snakes.Board;
-    var view = new Snakes.View($('html'));
+    $(function () {
+      new Snakes.View($('.snake-game'));
+    });
   </script>
 </body>
 </html>

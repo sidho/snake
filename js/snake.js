@@ -46,35 +46,30 @@
   var Board = Snakes.Board = function () {
     var that = this;
     this.snake = new Snake;
-    this.grid = new Array(20);
-    for(var i = 0; i < this.grid.length; i++) {
-      this.grid[i] = [];
+  }
+
+  Board.grid = function () {
+    var grid = []
+
+    for(var i = 0; i < 20; i++) {
+      grid.push([]);
       for (var j = 0; j < 20; j++) {
-        this.grid[i][j] = '.';
+        grid[i][j] = '.';
       }
     }
 
-    this.snake.segments.forEach(function(coord){
-      that.grid[coord.row][coord.col] = 'S';
-    });
+    return grid;
   }
 
   Board.prototype.render = function () {
-    var that = this;
+    var gameBoard = Board.grid();
 
-    this.snake.segments.forEach(function(coord){
-      that.grid[coord.row][coord.col] = 'S';
+    this.snake.segments.forEach( function(coord) {
+      gameBoard[coord.row][coord.col] = "S";
     });
 
-    var largeString = [];
-    for (var i = 0; i < this.grid.length; i++) {
-      var row = "";
-      for(var j = 0; j < this.grid[i].length; j++){
-        row += this.grid[i][j];
-      }
-      largeString[i] = row;
-    }
-
-    return largeString;
+    return gameBoard.map(function (row) {
+      return row.join("");
+    }).join("\n");
   };
 })();

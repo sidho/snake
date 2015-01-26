@@ -14,18 +14,13 @@
 
   View.prototype.step = function () {
     this.board.snake.move();
-    var lines = this.board.render();
-
-    var largeString = "";
-    for (var i = 0; i < lines.length; i++) {
-      largeString += lines[i] + '<br>';
-    }
-    this.$el.html(largeString);
+    var ascii = this.board.render();
+    this.$el.html("<pre>" + ascii + "</pre>");
   }
 
   View.prototype.bindKeys = function () {
     var that = this;
-    this.$el.on('keydown', function(event){
+    $(window).on('keydown', function(event){
       that.handleKeyEvent(event);
     });
   }
