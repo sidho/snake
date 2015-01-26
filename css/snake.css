@@ -3,17 +3,20 @@ figure, ul, li {
   margin: 0px;
 }
 
+h1 {
+  text-align: center;
+}
+
 body{
-  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 figure {
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
   border: 5px outset black;
   display: inline-block;
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 ul {
