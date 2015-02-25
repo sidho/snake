@@ -3,6 +3,27 @@
     window.Snakes = {};
   }
 
+  var Apple = Snakes.Apple = function (board) {
+    this.board = board;
+    this.newPosition();
+  };
+
+  Apple.prototype.newPosition = function () {
+    var x = this.generateCoordinate();
+    var y = this.generateCoordinate();
+
+    if (this.board.snake.isOccupying([x, y])) {
+      this.newPosition();
+    } else {
+      this.position = new Coord(x, y);
+    }
+  };
+
+  Apple.prototype.generateCoordinate = function () {
+    var coordinate = Math.floor(Math.random() * this.board.dimensions);
+    return coordinate;
+  };
+
   var Snake = Snakes.Snake = function (board) {
     this.dir = "N";
     this.board = board;
@@ -17,6 +38,18 @@
 
   Snake.prototype.head = function () {
     return this.segments[this.segments.length - 1];
+  };
+
+  Snake.prototype.isOccupying = function (coord) {
+    var occupying = false;
+    this.segments.forEach(function(segment){
+      if (segment.row === coord[0] && segment.col === coord[1]) {
+        occupying = true;
+        return occupying;
+      }
+    });
+
+    return occupying;
   };
 
   Snake.prototype.isValidMove = function () {
@@ -104,6 +137,7 @@
   var Board = Snakes.Board = function (dimensions) {
     this.dimensions = dimensions;
     this.snake = new Snake(this);
+    this.apple = new Apple(this);
   }
 
   Board.grid = function () {
