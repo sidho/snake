@@ -3,10 +3,13 @@
     window.Snakes = {};
   }
 
-  var Snake = Snakes.Snake = function () {
+  var Snake = Snakes.Snake = function (board) {
     this.dir = "N";
-    this.segments = [new Coord(10, 10)];
-    this.growFrames = 2;
+    this.board = board;
+    this.segments = [new Coord(
+      this.board.dimensions / 2, this.board.dimensions / 2
+      )];
+    this.growFrames = 4;
     this.turning = false;
   };
 
@@ -14,6 +17,22 @@
 
   Snake.prototype.head = function () {
     return this.segments[this.segments.length - 1];
+  };
+
+  Snake.prototype.isValidMove = function () {
+    var head = this.head();
+
+    if (!this.board.isValid(this.head())) {
+      return false;
+    }
+
+    for (var i = 0; i < this.segments.length - 1; i++) {
+      if (this.segments[i].equals(head)) {
+        return false;
+      }
+    }
+
+    return true;
   };
 
   Snake.prototype.move = function () {
@@ -28,6 +47,10 @@
       this.segments.shift();
     } else {
       this.growFrames--;
+    }
+
+    if (!this.isValidMove()) {
+      this.segments = [];
     }
   };
 
@@ -80,7 +103,7 @@
 
   var Board = Snakes.Board = function (dimensions) {
     this.dimensions = dimensions;
-    this.snake = new Snake;
+    this.snake = new Snake(this);
   }
 
   Board.grid = function () {
@@ -96,7 +119,13 @@
     return grid;
   }
 
+  Board.prototype.isValid = function (coord) {
+    return (coord.row >= 0) && (coord.row < this.dimensions) &&
+      (coord.col >= 0) && (coord.col < this.dimensions);
+  };
+
   Board.prototype.render = function () {
+    //ASCII rendering
     var gameBoard = Board.grid();
 
     this.snake.segments.forEach( function(coord) {

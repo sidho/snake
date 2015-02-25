@@ -9,13 +9,20 @@
     this.setupGrid();
     this.bindKeys();
     var that = this;
-    setInterval(function () { that.step(); }, 200);
+    this.intervalId = window.setInterval(function () { that.step(); }, 200);
   };
 
   View.prototype.step = function () {
-    this.board.snake.move();
-    //var ascii = this.board.render
-    this.renderHTML();
+    if (this.board.snake.segments.length === 0) {
+      debugger;
+      $('.game-over').text("Game over!");
+      window.clearInterval(this.intervalId);
+    } else {
+      this.board.snake.move();
+      this.renderHTML();
+    }
+    // ASCII rendeirng
+    // var ascii = this.board.render
     // this.$el.html("<pre>" + ascii + "</pre>");
   }
 
