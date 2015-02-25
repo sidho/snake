@@ -36,6 +36,15 @@
 
   Snake.DIRECTIONS = ["N", "E", "S", "W"];
 
+  Snake.prototype.checkIfEating = function () {
+    if (this.head().equals(this.board.apple.position)) {
+      this.growFrames += 3;
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   Snake.prototype.head = function () {
     return this.segments[this.segments.length - 1];
   };
@@ -73,8 +82,11 @@
     var newSeg = new Coord(head.row, head.col);
     newSeg.plus(this.dir);
     this.segments.push(newSeg);
-
     this.turning = false;
+
+    if (this.checkIfEating()) {
+      this.board.apple.newPosition();
+    }
 
     if (this.growFrames === 0) {
       this.segments.shift();
