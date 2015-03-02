@@ -82,7 +82,6 @@
       } else {
         $('.game-over').text("Game over!");
       }
-      debugger;
       window.clearInterval(this.intervalId);
     } else {
       $('.score').text(this.board.score);
