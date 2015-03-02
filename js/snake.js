@@ -24,8 +24,9 @@
     return coordinate;
   };
 
-  var Board = Snakes.Board = function (dimensions) {
+  var Board = Snakes.Board = function (dimensions, multiplier) {
     this.dimensions = dimensions;
+    this.multiplier = multiplier;
     this.snake = new Snake(this);
     this.apple = new Apple(this);
     this.score = 0;
@@ -127,7 +128,7 @@
     this.turning = false;
 
     if (this.checkIfEating()) {
-      this.board.score += 10;
+      this.board.score += (10 * this.board.multiplier);
       this.board.apple.newPosition();
     }
 

@@ -5,13 +5,26 @@
 
   var View = Snakes.View = function ($el) {
     this.$el = $el;
-    this.board = new Snakes.Board(20);
+
+    // setup game speed and point multiplier
+    if ($("#easy").prop("checked")) {
+      this.intervalSpeed = 200;
+      this.multiplier = 1;
+    } else if ($("#hard").prop("checked")) {
+      this.intervalSpeed = 105;
+      this.multiplier = 2;
+    } else {
+      this.intervalSpeed = 60;
+      this.multiplier = 3.5;
+    }
+
+    this.board = new Snakes.Board(20, this.multiplier);
     $('.game-over').text("");
     $('.start-button').text("Restart Game");
     this.setupGrid();
     this.bindKeys();
     var that = this;
-    this.intervalId = window.setInterval(function () { that.step(); }, 200);
+    this.intervalId = window.setInterval(function () { that.step(); }, that.intervalSpeed);
   };
 
   View.prototype.bindKeys = function () {
