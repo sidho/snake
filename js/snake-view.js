@@ -22,15 +22,13 @@
       } else {
         $('.game-over').text("Game over!");
       }
+      debugger;
       window.clearInterval(this.intervalId);
     } else {
       $('.score').text(this.board.score);
       this.board.snake.move();
       this.renderHTML();
     }
-    // ASCII rendeirng
-    // var ascii = this.board.render
-    // this.$el.html("<pre>" + ascii + "</pre>");
   };
 
   View.prototype.renderHTML = function () {
