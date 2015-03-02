@@ -85,6 +85,7 @@
     this.turning = false;
 
     if (this.checkIfEating()) {
+      this.board.score += 10;
       this.board.apple.newPosition();
     }
 
@@ -150,6 +151,7 @@
     this.dimensions = dimensions;
     this.snake = new Snake(this);
     this.apple = new Apple(this);
+    this.score = 0;
   }
 
   Board.grid = function () {

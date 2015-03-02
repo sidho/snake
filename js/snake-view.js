@@ -6,6 +6,8 @@
   var View = Snakes.View = function ($el) {
     this.$el = $el;
     this.board = new Snakes.Board(20);
+    $('.game-over').text("");
+    $('.start-button').text("Restart Game");
     this.setupGrid();
     this.bindKeys();
     var that = this;
@@ -14,10 +16,15 @@
 
   View.prototype.step = function () {
     if (this.board.snake.segments.length === 0) {
-      debugger;
-      $('.game-over').text("Game over!");
+      if (parseInt($('.high-score').text()) < this.board.score) {
+        $('.high-score').text(this.board.score);
+        $('.game-over').text("Game over! New High Score!");
+      } else {
+        $('.game-over').text("Game over!");
+      }
       window.clearInterval(this.intervalId);
     } else {
+      $('.score').text(this.board.score);
       this.board.snake.move();
       this.renderHTML();
     }
