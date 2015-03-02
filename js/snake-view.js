@@ -14,52 +14,6 @@
     this.intervalId = window.setInterval(function () { that.step(); }, 200);
   };
 
-  View.prototype.step = function () {
-    if (this.board.snake.segments.length === 0) {
-      if (parseInt($('.high-score').text()) < this.board.score) {
-        $('.high-score').text(this.board.score);
-        $('.game-over').text("Game over! New High Score!");
-      } else {
-        $('.game-over').text("Game over!");
-      }
-      debugger;
-      window.clearInterval(this.intervalId);
-    } else {
-      $('.score').text(this.board.score);
-      this.board.snake.move();
-      this.renderHTML();
-    }
-  };
-
-  View.prototype.renderHTML = function () {
-    this.updateClasses(this.board.snake.segments, "snake");
-    this.updateClasses([this.board.apple.position], "apple");
-  };
-
-  View.prototype.updateClasses = function(coordinates, className) {
-    this.$li.filter("." + className).removeClass();
-    coordinates.forEach(function(coordinate){
-      var flatCoordinate = (coordinate.row * this.board.dimensions) + coordinate.col;
-      this.$li.eq(flatCoordinate).addClass(className);
-    }.bind(this));
-  };
-
-  View.prototype.setupGrid = function () {
-    var grid = "";
-
-    for (var i = 0; i < this.board.dimensions; i++) {
-      grid += "<ul>";
-      for (var j = 0; j < this.board.dimensions; j++) {
-        grid += "<li></li>";
-      }
-
-      grid += "</ul>";
-    }
-
-    this.$el.html(grid);
-    this.$li = this.$el.find('li');
-  };
-
   View.prototype.bindKeys = function () {
     var that = this;
     $(window).on('keydown', function(event){
@@ -84,5 +38,51 @@
       default:
         break;
     }
+  };
+
+  View.prototype.renderHTML = function () {
+    this.updateClasses(this.board.snake.segments, "snake");
+    this.updateClasses([this.board.apple.position], "apple");
+  };
+
+  View.prototype.setupGrid = function () {
+    var grid = "";
+
+    for (var i = 0; i < this.board.dimensions; i++) {
+      grid += "<ul>";
+      for (var j = 0; j < this.board.dimensions; j++) {
+        grid += "<li></li>";
+      }
+
+      grid += "</ul>";
+    }
+
+    this.$el.html(grid);
+    this.$li = this.$el.find('li');
+  };
+
+  View.prototype.step = function () {
+    if (this.board.snake.segments.length === 0) {
+      if (parseInt($('.high-score').text()) < this.board.score) {
+        $('.high-score').text(this.board.score);
+        $('.game-over').text("Game over! New High Score!");
+      } else {
+        $('.game-over').text("Game over!");
+      }
+      debugger;
+      window.clearInterval(this.intervalId);
+    } else {
+      $('.score').text(this.board.score);
+      this.board.snake.move();
+      this.renderHTML();
+    }
+  };
+
+  View.prototype.updateClasses = function(coordinates, className) {
+    this.$li.filter("." + className).removeClass();
+    coordinates.forEach(function(coordinate){
+      var flatCoordinate = (coordinate.row * this.board.dimensions) + coordinate.col;
+      this.$li.eq(flatCoordinate).addClass(className);
+    }.bind(this));
   };
 })();
