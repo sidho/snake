@@ -22,6 +22,7 @@
     $('.game-over').text("");
     $('.instructions').addClass("hidden");
     $('.start-button').text("Restart Game");
+    $('.start-button').attr("disabled", true);
     this.setupGrid();
     this.bindKeys();
     var that = this;
@@ -83,6 +84,7 @@
       } else {
         $('.game-over').text("Game over!");
       }
+      $('.start-button').removeAttr("disabled");
       window.clearInterval(this.intervalId);
     } else {
       $('.score').text(this.board.score);
