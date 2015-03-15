@@ -50,3 +50,17 @@ li {
   font-size: 24px;
   font-weight: bold;
 }
+
+.instructions {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.scores {
+  width: 75%;
+}
+
+.hidden {
+  display: none;
+}

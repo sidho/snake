@@ -20,6 +20,7 @@
 
     this.board = new Snakes.Board(20, this.multiplier);
     $('.game-over').text("");
+    $('.instructions').addClass("hidden");
     $('.start-button').text("Restart Game");
     this.setupGrid();
     this.bindKeys();

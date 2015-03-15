@@ -8,17 +8,23 @@
 <body>
   <div class="container">
     <h2>Snakes on a Game</h2>
-    <div class="col-xs-12">
+    <div class="col-xs-12 scores">
       <div class="col-xs-6">SCORE: <div class="score">0</div></div>
       <div class="col-xs-6">HIGH SCORE: <div class="high-score">0</div></div>
     </div>
     <div class="snake-game"></div><div class="game-over"></div>
+    <div class="well instructions">
+      <p>Use the arrow keys to play!</p>
+      <p>Select your difficulty below, and press 'Start Game' when you're ready.</p>
+    </div>
     <button class="start-button">Start Game</button>
-    <form>
-      Easy: <input type="radio" name="difficulty" id="easy" checked>
-      Hard: <input type="radio" name="difficulty" id="hard">
-      Impossible: <input type="radio" name="difficulty" id="impossible">
-    </form>
+    <p>
+      <form>
+        Easy: <input type="radio" name="difficulty" id="easy" checked>
+        Hard: <input type="radio" name="difficulty" id="hard">
+        Impossible: <input type="radio" name="difficulty" id="impossible">
+      </form>
+    </p>
   </div>
   <script type="application/javascript" src="../js/jquery-2.1.1.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
