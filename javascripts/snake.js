@@ -75,12 +75,14 @@
       )];
     this.growFrames = 4;
     this.turning = false;
+    this.eat = new Audio('../sounds/eat.wav');
   };
 
   Snake.DIRECTIONS = ["N", "E", "S", "W"];
 
   Snake.prototype.checkIfEating = function () {
     if (this.head().equals(this.board.apple.position)) {
+      this.eat.play();
       this.growFrames += 3;
       return true;
     } else {

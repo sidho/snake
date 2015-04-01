@@ -5,6 +5,7 @@
 
   var View = Snakes.View = function ($el) {
     this.$el = $el;
+    this.die = new Audio('../sounds/die.wav');
 
     // setup game speed and point multiplier
     if ($("#easy").prop("checked")) {
@@ -18,8 +19,9 @@
       this.multiplier = 3.5;
     }
 
+    $('.highscore-message').removeClass('show-text');
+    $('.game-over').removeClass('show-text');
     this.board = new Snakes.Board(20, this.multiplier);
-    $('.game-over').text("");
     $('.instructions').addClass("hidden");
     $('.start-button').text("Restart Game");
     $('.start-button').attr("disabled", true);
@@ -78,11 +80,13 @@
 
   View.prototype.step = function () {
     if (this.board.snake.segments.length === 0) {
+      this.die.play();
       if (parseInt($('.high-score').text()) < this.board.score) {
         $('.high-score').text(this.board.score);
-        $('.game-over').text("Game over! New High Score!");
+        $('.game-over').addClass('show-text');
+        $('.highscore-message').addClass('show-text');
       } else {
-        $('.game-over').text("Game over!");
+        $('.game-over').addClass('show-text');
       }
       $('.start-button').removeAttr("disabled");
       window.clearInterval(this.intervalId);
