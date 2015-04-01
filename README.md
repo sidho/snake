@@ -32,5 +32,5 @@ Thanks for checking this out! If you'd like to see more of my work, or you'd lik
 to get in touch, [come check out my homepage.](http://sidho.me)
 
 <p align="center">
-  <a href="http://sidho.me"><img src="./app/assets/images/shgreenicon.jpg"/></a>
+  <a href="http://sidho.me"><img src="http://sidho.me/images/icons/apple-touch-icon-60x60.png"/></a>
 </p>
