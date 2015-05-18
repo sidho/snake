@@ -51,7 +51,7 @@
         } else {
             $('.game-over').addClass('show-text');
         }
-        $('.start-button').removeAttr("disabled");
+        $('#start-button').removeAttr("disabled");
         window.clearInterval(this.intervalId);
     };
 
@@ -92,8 +92,8 @@
         $('.game-over').removeClass('show-text');
         this.board = new Snakes.Board(20, this.multiplier);
         $('.instructions').addClass("hidden");
-        $('.start-button').text("Restart Game");
-        $('.start-button').attr("disabled", true);
+        $('#start-button').text("Restart Game");
+        $('#start-button').attr("disabled", true);
     };
 
     View.prototype.setupGrid = function () {
@@ -104,7 +104,6 @@
             for (var j = 0; j < this.board.dimensions; j++) {
                 grid += "<li></li>";
             }
-
             grid += "</ul>";
         }
 
