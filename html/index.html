@@ -32,7 +32,7 @@
             <p>Select your difficulty below, and press 'Start Game' when you're ready.</p>
         </div>
         <div class="game-controls">
-            <button class="btn btn-normal start-button">Start Game</button>
+            <button class="btn btn-normal" id="start-button">Start Game</button>
             <form>
                 <div class="form-group">
                     Easy:
@@ -44,7 +44,8 @@
         </div>
     </div>
     <script>
-        $('.start-button').click(function() {
+
+        $('#start-button').click(function() {
             new Snakes.View($('.snake-game'));
         });
     </script>

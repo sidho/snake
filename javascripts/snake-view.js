@@ -5,28 +5,10 @@
 
     var View = Snakes.View = function($el) {
         this.$el = $el;
-        this.die = new Audio('../sounds/die.wav');
-
-        // setup game speed and point multiplier
-        if ($("#easy").prop("checked")) {
-            this.intervalSpeed = 200;
-            this.multiplier = 1;
-        } else if ($("#hard").prop("checked")) {
-            this.intervalSpeed = 105;
-            this.multiplier = 2;
-        } else {
-            this.intervalSpeed = 60;
-            this.multiplier = 3.5;
-        }
-
-        $('.highscore-message').removeClass('show-text');
-        $('.game-over').removeClass('show-text');
-        this.board = new Snakes.Board(20, this.multiplier);
-        $('.instructions').addClass("hidden");
-        $('.start-button').text("Restart Game");
-        $('.start-button').attr("disabled", true);
+        this.setupGame();
         this.setupGrid();
         this.bindKeys();
+
         var that = this;
         this.intervalId = window.setInterval(function() {
             that.step();
@@ -59,12 +41,62 @@
         }
     };
 
+    View.prototype.handleDeath = function () {
+        this.die.play(); // play death sound
+        if (parseInt(localStorage.getItem("highScore")) < this.board.score) {
+            localStorage.setItem("highScore", this.board.score);
+            $('.high-score').text(this.board.score);
+            $('.game-over').addClass('show-text');
+            $('.highscore-message').addClass('show-text');
+        } else {
+            $('.game-over').addClass('show-text');
+        }
+        $('.start-button').removeAttr("disabled");
+        window.clearInterval(this.intervalId);
+    };
+
     View.prototype.renderHTML = function() {
         this.updateClasses(this.board.snake.segments, "snake");
         this.updateClasses([this.board.apple.position], "apple");
     };
 
-    View.prototype.setupGrid = function() {
+    View.prototype.setDifficulty = function () {
+        if ($("#easy").prop("checked")) {
+            this.intervalSpeed = 200;
+            this.multiplier = 1;
+        } else if ($("#hard").prop("checked")) {
+            this.intervalSpeed = 105;
+            this.multiplier = 2;
+        } else {
+            this.intervalSpeed = 60;
+            this.multiplier = 3.5;
+        }
+    };
+
+    View.prototype.setupGame = function () {
+        this.die = new Audio('../sounds/die.wav');
+
+        // retrieve high score from localStorage
+        if (localStorage.getItem("highScore")){
+          this.highScore = localStorage.getItem("highScore")
+        } else {
+          localStorage.setItem("highScore", 0);
+          this.highScore = 0;
+        }
+        $('.high-score').text(this.highScore);
+
+        // setup game speed and point multiplier
+        this.setDifficulty();
+
+        $('.highscore-message').removeClass('show-text');
+        $('.game-over').removeClass('show-text');
+        this.board = new Snakes.Board(20, this.multiplier);
+        $('.instructions').addClass("hidden");
+        $('.start-button').text("Restart Game");
+        $('.start-button').attr("disabled", true);
+    };
+
+    View.prototype.setupGrid = function () {
         var grid = "";
 
         for (var i = 0; i < this.board.dimensions; i++) {
@@ -82,16 +114,7 @@
 
     View.prototype.step = function() {
         if (this.board.snake.segments.length === 0) {
-            this.die.play();
-            if (parseInt($('.high-score').text()) < this.board.score) {
-                $('.high-score').text(this.board.score);
-                $('.game-over').addClass('show-text');
-                $('.highscore-message').addClass('show-text');
-            } else {
-                $('.game-over').addClass('show-text');
-            }
-            $('.start-button').removeAttr("disabled");
-            window.clearInterval(this.intervalId);
+          this.handleDeath();
         } else {
             $('.score').text(this.board.score);
             this.board.snake.move();
