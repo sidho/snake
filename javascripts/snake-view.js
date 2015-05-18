@@ -43,6 +43,8 @@
 
     View.prototype.handleDeath = function () {
         this.die.play(); // play death sound
+
+        // updates localstorage high score
         if (parseInt(localStorage.getItem("highScore")) < this.board.score) {
             localStorage.setItem("highScore", this.board.score);
             $('.high-score').text(this.board.score);
@@ -75,30 +77,24 @@
 
     View.prototype.setupGame = function () {
         this.die = new Audio('../sounds/die.wav');
-
-        // retrieve high score from localStorage
-        if (localStorage.getItem("highScore")){
-          this.highScore = localStorage.getItem("highScore")
-        } else {
-          localStorage.setItem("highScore", 0);
-          this.highScore = 0;
-        }
-        $('.high-score').text(this.highScore);
-
-        // setup game speed and point multiplier
+        this.setHighScore();
         this.setDifficulty();
 
+        // Removes messages if visible
         $('.highscore-message').removeClass('show-text');
         $('.game-over').removeClass('show-text');
+
+        // Creates grid, hides instructions
         this.board = new Snakes.Board(20, this.multiplier);
         $('.instructions').addClass("hidden");
+
+        // Disables game start button when running
         $('#start-button').text("Restart Game");
         $('#start-button').attr("disabled", true);
     };
 
     View.prototype.setupGrid = function () {
         var grid = "";
-
         for (var i = 0; i < this.board.dimensions; i++) {
             grid += "<ul>";
             for (var j = 0; j < this.board.dimensions; j++) {
@@ -106,14 +102,25 @@
             }
             grid += "</ul>";
         }
-
         this.$el.html(grid);
+        // saves all the <li>s so they can be searched through
         this.$li = this.$el.find('li');
+    };
+
+    View.prototype.setHighScore = function () {
+        // retrieve high score from localStorage if it exists
+        if (localStorage.getItem("highScore")){
+            this.highScore = localStorage.getItem("highScore")
+        } else {
+            localStorage.setItem("highScore", 0);
+            this.highScore = 0;
+        }
+        $('.high-score').text(this.highScore);
     };
 
     View.prototype.step = function() {
         if (this.board.snake.segments.length === 0) {
-          this.handleDeath();
+            this.handleDeath();
         } else {
             $('.score').text(this.board.score);
             this.board.snake.move();
@@ -122,8 +129,10 @@
     };
 
     View.prototype.updateClasses = function(coordinates, className) {
+        // clears out classes
         this.$li.filter("." + className).removeClass();
         coordinates.forEach(function(coordinate) {
+            // finds the li with the correct coordinate and adds the class
             var flatCoordinate = (coordinate.row * this.board.dimensions) + coordinate.col;
             this.$li.eq(flatCoordinate).addClass(className);
         }.bind(this));
