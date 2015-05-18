@@ -22,6 +22,16 @@
         });
     };
 
+    View.prototype.checkStorageSupport = function () {
+        // checks if browser can support localStorage
+        // Source: http://diveintohtml5.info/detect.html#storage
+        try {
+            return 'localStorage' in window && window['localStorage'] !== null;
+        } catch(e) {
+            return false;
+        }
+    };
+
     View.prototype.handleKeyEvent = function(event) {
         switch (event.keyCode) {
             case 38:
@@ -44,9 +54,12 @@
     View.prototype.handleDeath = function () {
         this.die.play(); // play death sound
 
-        // updates localstorage high score
-        if (parseInt(localStorage.getItem("highScore")) < this.board.score) {
-            localStorage.setItem("highScore", this.board.score);
+        // check for high score
+        if (parseInt($('.high-score').text()) < this.board.score) {
+            // saves high score to localStorage if browser is compatible
+            if (this.checkStorageSupport()) {
+                localStorage.setItem("highScore", this.board.score);
+            }
             $('.high-score').text(this.board.score);
             $('.game-over').addClass('show-text');
             $('.highscore-message').addClass('show-text');
@@ -108,13 +121,14 @@
     };
 
     View.prototype.setHighScore = function () {
-        // retrieve high score from localStorage if it exists
-        if (localStorage.getItem("highScore")){
-            this.highScore = localStorage.getItem("highScore")
+        // if browser supports localStorage, retrieve high score from
+        // localStorage if it exists, otherwise default to 0;
+        if (this.checkStorageSupport() && localStorage.getItem("highScore")) {
+            this.highScore = localStorage.getItem("highScore");
         } else {
-            localStorage.setItem("highScore", 0);
             this.highScore = 0;
         }
+
         $('.high-score').text(this.highScore);
     };
 

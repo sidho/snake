@@ -24,6 +24,12 @@ by a snake segment. The game difficulty determines the speed of the
 window.setInterval, which moves the game one step per interval. As the snake
 moves, occupied grid coordinates changes color to show movement.
 
+### Utilizing localStorage
+This game uses HTML5's localStorage to save high scores locally. It checks for
+localStorage compatibility using a technique found [here.](http://diveintohtml5.info/detect.html#storage) If the browser
+does not support localStorage, the game does not persist the high
+scores and simply changes the screen text.
+
 ### Other Info
 [bfxr](www.bfxr.net/) was used to make the sweet sweet 8-bit sounds.
 Google fonts provides the retro font, Press Start 2P.
